@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <center><h1>Universidad Bicentenaria De Aragua<h1></center>
+	 <center><h1>Ingeniería De Sistemas<h1></center>
+	 <center><h1>Núcleo San Antonio De Los Altos<h1></center>
+	 <center><h1>Programación 5<h1></center>
+    <center><title>zu hinzufüngen Schüler und Schülerinnen </title></center>
+    <style>
+    	* {  } 
+        table { width: 70%; }
+        table, th, td { border: solid 1px #DDD;
+            border-collapse: collapse; padding: 2px 3px; text-align: center;
+        }
+        body{
+  	               background: url(UniversidadBicentenariaDeAragua.jpg)no-repeat center center fixed;
+                    background-size:cover;
+                                                  }
+         .form{
+      	           	max-width: 500px;
+      	        	margin: 2rem auto;
+      	        	border:  2px solid pink;
+      	        	padding: 2rem;
+
+      	              }
+      	        
+      	        button{
+      	        	
+      	        	background-color: #04AA6D; /* Green background */
+                    border: 1px solid green; /* Green border */
+                    color: white; /* White text */
+                    padding: 10px 24px; /* Some padding */
+                    cursor: pointer; /* Pointer/hand icon */
+                    width: 50%; /* Set a width if needed */
+                    display: block; /* Make the buttons appear below each other */
+
+      	             }
+    </style>
+</head>
+<body onload="createTable()">
+
+<center><h3> Click die "Hinzufüngen Sie eine neue Reihe" Taste, um eine Reihe auf die Reihe zu hinzufügen
+      <br> Schreiben Sie Nummern auf jede Reihe und benutzen Sie die Senden Taste. 
+</h3></center>
+    
+<p>
+<center><input type="button" id="addRow" value="Hinzufügen Sie eine neue Reihe" onclick="addRow()" /></center>
+</p>
+
+<center><div id="cont"></div></center>  <!-- the container to add the TABLE -->
+
+<p>
+<center><input type="button" id="bt" value="Senden Sie Info" onclick="submit()" /></center>
+</p>
+    
+<p id='output'></p>
+</body>
+<form class="form">
+                      <center><button type="button" onclick="farbeÄndernNachRot()">änderFarbeNachRot</button></center>
+                      <center><button type="button" onclick="farbeÄndernNachGelb()">änderFarbeNachGelb</button></center>
+                      <center><button type="button" onclick="farbeÄndernNachBlaue()">änderFarbeNachBlaue </button></center>
+                       <center><button type="button" onclick="farbeÄndernNachGrün()">änderFarbeNachGrün</button></center>
+                       <center><button type="button" onclick="farbeÄndernNachOrange()">änderFarbeNachOrange</button></center>
+                </form>
+
+<script>
+    var arrHead = new Array();	// array for header.
+    arrHead = ['', 'ID', 'Name', 'Note1','Note2','Note3','Note4'];
+
+    // first create TABLE structure with the headers. 
+    function createTable() {
+        var empTable = document.createElement('table');
+        empTable.setAttribute('id', 'empTable'); // table id.
+
+        var tr = empTable.insertRow(-1);
+        for (var h = 0; h < arrHead.length; h++) {
+            var th = document.createElement('th'); // create table headers
+            th.innerHTML = arrHead[h];
+            tr.appendChild(th);
+        }
+
+        var div = document.getElementById('cont');
+        div.appendChild(empTable);  // add the TABLE to the container.
+    }
+
+    // now, add a new to the TABLE.
+    function addRow() {
+        var empTab = document.getElementById('empTable');
+
+        var rowCnt = empTab.rows.length;   // table row count.
+        var tr = empTab.insertRow(rowCnt); // the table row.
+        tr = empTab.insertRow(rowCnt);
+
+        for (var c = 0; c < arrHead.length; c++) {
+            var td = document.createElement('td'); // table definition.
+            td = tr.insertCell(c);
+
+            if (c == 0) {      // the first column.
+                // add a button in every new row in the first column.
+                var button = document.createElement('input');
+
+                // set input attributes.
+                button.setAttribute('type', 'button');
+                button.setAttribute('value', 'Remove');
+
+                // add button's 'onclick' event.
+                button.setAttribute('onclick', 'removeRow(this)');
+
+                td.appendChild(button);
+            }
+            else {
+                // 2nd, 3rd and 4th column, will have textbox.
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'text');
+                ele.setAttribute('value', '');
+
+                td.appendChild(ele);
+            }
+        }
+    }
+
+    // delete TABLE row function.
+    function removeRow(oButton) {
+        var empTab = document.getElementById('empTable');
+        empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // button -> td -> tr.
+    }
+
+    // function to extract and submit table data.
+    function submit() {
+        var myTab = document.getElementById('empTable');
+        var arrValues = new Array();
+
+        // loop through each row of the table.
+        for (row = 1; row < myTab.rows.length - 1; row++) {
+        	// loop through each cell in a row.
+            for (c = 0; c < myTab.rows[row].cells.length; c++) {  
+                var element = myTab.rows.item(row).cells[c];
+                if (element.childNodes[0].getAttribute('type') == 'text') {
+                    arrValues.push("'" + element.childNodes[0].value + "'");
+                }
+            }
+        }
+        
+        // The final output.
+        document.getElementById('output').innerHTML = arrValues;
+        //console.log (arrValues);   // you can see the array values in your browsers console window. Thanks :-) 
+
+    }
+     function farbeÄndernNachRot(){
+      		        	document.body.style.background="red";
+      		           }
+      		           function farbeÄndernNachGelb(){
+      		        	document.body.style.background="yellow";
+      		           }
+      		           function farbeÄndernNachBlaue(){
+      		        	document.body.style.background="blue";
+      		           }
+      		           function farbeÄndernNachGrün(){
+      		        	document.body.style.background="green";
+      		           }
+      		            function farbeÄndernNachOrange(){
+      			       document.body.style.background="orange";
+      		          }
+</script>
+</html>
